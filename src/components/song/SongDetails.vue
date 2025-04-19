@@ -54,10 +54,16 @@ export default {
       return this.currentSong ? this.currentSong.artist.name : this.$route.params.artist;
     },
     formattedLyrics() {
-      // Format lyrics with line breaks
-      return this.lyrics.replace(/\n/g, '<br>');
-    }
-  },
+      if (!this.lyrics) return '';
+
+      // Remplacer les sauts de ligne par des balises <br>
+      let formatted = this.lyrics.replace(/\n/g, '<br>');
+
+      // Mettre en évidence les refrains (souvent indiqués par [Chorus], [Refrain], etc.)
+      formatted = formatted.replace(/\[(.*?)\]/g, '<strong>[$1]</strong>');
+
+      return formatted;
+    },
   created() {
     // Fetch lyrics when component is created
     const artist = this.$route.params.artist;
