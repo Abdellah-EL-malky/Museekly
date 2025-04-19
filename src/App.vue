@@ -1,30 +1,79 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <header class="app-header">
+      <h1 class="app-title">
+        <router-link to="/">LyricsFinder</router-link>
+      </h1>
+    </header>
+
+    <main class="app-main">
+      <router-view />
+    </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2025 LyricsFinder - Trouvez les paroles de vos chansons préférées</p>
+    </footer>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style lang="scss">
+* {
+  box-sizing: border-box;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.5;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background-color: #4a90e2;
+  color: white;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .app-title {
+    margin: 0;
+    font-size: 24px;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.app-main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px 20px;
+  margin-top: auto;
+  font-size: 14px;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .app-main {
+    padding: 15px;
+  }
 }
 </style>
