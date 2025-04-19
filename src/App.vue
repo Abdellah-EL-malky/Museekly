@@ -70,6 +70,13 @@ body {
   font-size: 14px;
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 // Responsive adjustments
 @media (max-width: 768px) {
   .app-main {

@@ -10,7 +10,7 @@ const routes = [
     {
         path: '/song/:artist/:title',
         name: 'SongView',
-        component: () => import('@/views/SongView.vue') // Lazy-loaded
+        component: () => import(/* webpackChunkName: "song-view" */ '../views/SongView.vue')
     }
 ];
 
