@@ -13,6 +13,18 @@
         <button @click="goBack" class="back-button">
           Retour
         </button>
+        <!-- Dans le template de SongDetails.vue -->
+        <div class="song-extra-info" v-if="currentSong">
+          <div class="release-info" v-if="currentSong.album && currentSong.album.release_date">
+            <span class="label">Date de sortie:</span>
+            <span>{{ formatDate(currentSong.album.release_date) }}</span>
+          </div>
+
+          <div class="genre-info" v-if="currentSong.primary_genres">
+            <span class="label">Genre:</span>
+            <span>{{ currentSong.primary_genres.music_genre_list[0].music_genre.music_genre_name }}</span>
+          </div>
+        </div>
 
         <div class="song-meta">
           <h2 class="song-title">{{ songTitle }}</h2>
@@ -63,6 +75,7 @@ export default {
       formatted = formatted.replace(/\[(.*?)\]/g, '<strong>[$1]</strong>');
 
       return formatted;
+    }
     },
   created() {
     // Fetch lyrics when component is created
