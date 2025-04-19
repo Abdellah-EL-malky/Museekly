@@ -15,7 +15,14 @@ const searchApi = axios.create({
 export default {
     // Rechercher des chansons
     searchSongs(query) {
-        return searchApi.get(`/search?q=${query}`);
+        return searchApi.get('/track.search', {
+            params: {
+                q_track_artist: query,
+                page_size: 10,
+                page: 1,
+                s_track_rating: 'desc'
+            }
+        });
     },
 
     // Obtenir les paroles d'une chanson

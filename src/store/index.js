@@ -33,7 +33,20 @@ export default createStore({
 
             try {
                 const response = await api.searchSongs(query);
-                commit('SET_SEARCH_RESULTS', response.data.data || []);
+                // Adapter selon l'API utilisée
+                const formattedResults = response.data.message.body.track_list.map(item => ({
+                    id: item.track.track_id,
+                    title: item.track.track_name,
+                    artist: {
+                        name: item.track.artist_name,
+                        id: item.track.artist_id
+                    },
+                    album: {
+                        title: item.track.album_name,
+                        id: item.track.album_id
+                    }
+                }));
+                commit('SET_SEARCH_RESULTS', formattedResults);
             } catch (error) {
                 console.error('Error searching songs:', error);
                 commit('SET_ERROR', 'Erreur lors de la recherche. Veuillez réessayer.');
