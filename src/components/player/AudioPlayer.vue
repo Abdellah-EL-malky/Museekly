@@ -3,6 +3,13 @@
     <div class="player-info">
       <p class="now-playing">En lecture : {{ currentTrack.title }} - {{ currentTrack.artist }}</p>
     </div>
+    <div class="progress-container">
+      <div class="time current">{{ formatTime(currentTime) }}</div>
+      <div class="progress-bar">
+        <div class="progress" :style="{ width: `${progress}%` }"></div>
+      </div>
+      <div class="time duration">{{ formatTime(duration) }}</div>
+    </div>
 
     <div class="player-controls">
       <button @click="togglePlay" class="play-button">
@@ -32,7 +39,9 @@ export default {
       audio: null,
       isPlaying: false,
       volume: 0.7,
-      currentTrack: null
+      currentTrack: null,
+      currentTime: 0,
+      duration: 0
     }
   },
   created() {
@@ -42,6 +51,13 @@ export default {
     // Listen for audio events
     this.audio.addEventListener('ended', this.onEnded);
     this.audio.addEventListener('error', this.onError);
+
+    this.audio.addEventListener('timeupdate', () => {
+      this.currentTime = this.audio.currentTime;
+    });
+    this.audio.addEventListener('loadedmetadata', () => {
+      this.duration = this.audio.duration;
+    });
   },
   beforeUnmount() {
     // Clean up audio events
@@ -50,8 +66,12 @@ export default {
     this.audio.pause();
     this.audio = null;
   },
+  computed: {
+    progress() {
+      return this.duration ? (this.currentTime / this.duration) * 100 : 0;
+    }
+  },
   methods: {
-    // Dans methods de AudioPlayer.vue
     playSong(track) {
       if (!track.preview) {
         console.error('No preview URL available');
@@ -96,6 +116,13 @@ export default {
       this.isPlaying = !this.isPlaying;
     },
 
+    formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+  },
+
     updateVolume() {
       this.audio.volume = this.volume;
     },
@@ -113,7 +140,7 @@ export default {
       return this.isPlaying && this.currentTrack && this.currentTrack.id === trackId;
     }
   }
-}
+
 </script>
 
 <style scoped lang="scss">

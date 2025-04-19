@@ -13,7 +13,6 @@
         <button @click="goBack" class="back-button">
           Retour
         </button>
-        <!-- Dans le template de SongDetails.vue -->
         <div class="song-extra-info" v-if="currentSong">
           <div class="release-info" v-if="currentSong.album && currentSong.album.release_date">
             <span class="label">Date de sortie:</span>
