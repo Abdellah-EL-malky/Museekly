@@ -51,14 +51,23 @@ export default {
     this.audio = null;
   },
   methods: {
+    // Dans methods de AudioPlayer.vue
     playSong(track) {
+      if (!track.preview) {
+        console.error('No preview URL available');
+        return;
+      }
+
       if (this.currentTrack && this.currentTrack.id === track.id) {
-        // Toggle play/pause for current track
         this.togglePlay();
         return;
       }
 
-      // Play new track
+      // Stop current audio if playing
+      if (this.isPlaying) {
+        this.audio.pause();
+      }
+
       this.audio.src = track.preview;
       this.currentTrack = {
         id: track.id,
@@ -67,12 +76,14 @@ export default {
         preview: track.preview
       };
 
+      // Essayer de jouer
       this.audio.play()
           .then(() => {
             this.isPlaying = true;
           })
           .catch(error => {
             console.error('Audio playback error:', error);
+            this.$store.commit('SET_ERROR', 'Impossible de lire l\'extrait audio.');
           });
     },
 
