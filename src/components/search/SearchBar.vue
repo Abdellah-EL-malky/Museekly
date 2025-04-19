@@ -26,6 +26,13 @@ export default {
     search() {
       if (this.query.trim()) {
         this.$store.dispatch('searchSongs', this.query);
+        // Stocker la recherche dans l'historique (localStorage)
+        const searchHistory = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+        if (!searchHistory.includes(this.query)) {
+          searchHistory.unshift(this.query);
+          if (searchHistory.length > 10) searchHistory.pop();
+          localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        }
       }
     }
   }
