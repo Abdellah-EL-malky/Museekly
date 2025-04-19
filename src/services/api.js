@@ -26,7 +26,18 @@ export default {
     },
 
     // Obtenir les paroles d'une chanson
-    getLyrics(artist, title) {
-        return lyricsApi.get(`/${artist}/${title}`);
+    async getLyrics(artist, title) {
+        try {
+            const response = await lyricsApi.get(`/${artist}/${title}`);
+            return response;
+        } catch (error) {
+            // Essayer une source alternative si la première échoue
+            try {
+                const altResponse = await axios.get(`https://api.alternative-lyrics.com/${artist}/${title}`);
+                return altResponse;
+            } catch (altError) {
+                throw error; // Si les deux échouent, propager l'erreur
+            }
+        }
     }
 };
