@@ -1,9 +1,9 @@
 <template>
-  <div class="app">
-    <h1 class="title">🎵 Paroles de Chansons</h1>
-    <SearchBar @onSearch="handleSearch" />
-    <SongList :songs="songs" @selectSong="fetchLyrics" />
-    <SongDetail v-if="selectedSong" :song="selectedSong" />
+  <div class="app container">
+    <h1 class="title text-center">🎵 Paroles de Chansons</h1>
+    <SearchBar @onSearch="handleSearch" class="mb-3" />
+    <SongList :songs="songs" @selectSong="fetchLyrics" class="card" />
+    <SongDetail v-if="selectedSong" :song="selectedSong" class="mt-3" />
   </div>
 </template>
 
@@ -41,11 +41,36 @@ async function fetchLyrics(song) {
 .app {
   max-width: 800px;
   margin: auto;
-  padding: 2rem;
-  font-family: sans-serif;
+  padding: 2rem 1rem;
 }
+
 .title {
-  text-align: center;
-  margin-bottom: 1rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.title:after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-light), var(--secondary-color));
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem 0.5rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
 }
 </style>
